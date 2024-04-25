@@ -1,0 +1,15 @@
+input {
+    outline: 0;
+    display: block;
+    min-width: 200px;
+    padding: 0;
+    margin: 0;
+    border: 0px
+}
+
+input[type="submit"] {
+    border:none;
+    background-color: green;
+    color: white;
+    height: 35px;
+}

@@ -1,0 +1,19 @@
+.accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 300px;
+    margin: 0 auto;
+
+    &__form-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        &--input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+}

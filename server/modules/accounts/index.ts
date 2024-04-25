@@ -76,7 +76,7 @@ export class Accounts {
         })
     }
 
-    private async OnAccountsList(request: Request, response: Response) {
+    private async OnAccountsList(_request: Request, response: Response) {
         const accounts = await AccountModel.findAll();
 
         const filteredAccounts = accounts.map(account => {
