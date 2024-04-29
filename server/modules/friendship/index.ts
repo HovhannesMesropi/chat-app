@@ -4,6 +4,7 @@ import { AuthTokenChecker } from '../../tools/JWT/authChecker';
 import { Nullable } from '../../types/NullableD';
 import { Express, Request, Response } from 'express';
 import { Validation } from './validation';
+import { Op } from 'sequelize';
 
 
 export class Friendship {
@@ -18,19 +19,23 @@ export class Friendship {
     private async OnGetRequestedList(request: Request, response: Response) {
         const currentUser = await JsonWebToken.Decode(request.headers.auth);
         AuthTokenChecker(request, response, async () => {
-            const friendRequests = await FriendRequest.findAll({
+
+            const myRequests = await FriendRequest.findAll({
                 where: {
-                    $or: [
-                        {
-                            requested: currentUser.id
-                        },
-                        {
-                            requestor: currentUser.id
-                        }
-                    ]
+                    requestor: currentUser.id
                 }
             });
-            response.status(200).send(friendRequests);
+
+            const requestedToMe = await FriendRequest.findAll({
+                where: {
+                    requested: currentUser.id
+                }
+            });
+
+            response.status(200).send({
+                myRequests,
+                requestedToMe
+            });
         })
     }
 
@@ -66,7 +71,6 @@ export class Friendship {
                     where: {
                         requestor: request.body.user_id,
                         requested: currentUser.id
-
                     }
                 })
 
@@ -76,7 +80,7 @@ export class Friendship {
                 }
 
                 await FriendshipModel.create({
-                    requestedBy: friendRequest.dataValues.requestedBy,
+                    requestedBy: friendRequest.dataValues.requestor,
                     friend: currentUser.id
                 })
 
@@ -86,9 +90,25 @@ export class Friendship {
 
     }
 
+    private OnGetFriendshipList(request: Request, response: Response) {
+        AuthTokenChecker(request, response, async () => {
+            const currentUser = await JsonWebToken.Decode(request.headers.auth);
+            const friends = await FriendshipModel.findAll({
+                where: {
+                    friend: currentUser.id
+                }
+            })
+            response.status(200).send(friends.map(c => {
+                delete c.dataValues.friend
+                return c;
+            }));
+        })
+    }
+
     private HTTPLIsteners() {
         this.express.get("/friendship/get-requested-list", this.OnGetRequestedList);
         this.express.post("/friendship/request", Validation.FriendshipRequest(), this.OnRequest);
         this.express.post("/friendship/accept", Validation.FriendshipRequest(), this.OnAccept);
+        this.express.get("/friendship/list", Validation.FriendshipRequest(), this.OnGetFriendshipList);
     }
 }
