@@ -98,10 +98,12 @@ export class Friendship {
                     friend: currentUser.id
                 }
             })
+
             response.status(200).send(friends.map(c => {
                 delete c.dataValues.friend
                 return c;
             }));
+            
         })
     }
 
