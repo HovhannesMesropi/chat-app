@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { RequestedMigrate } from './tools';
 import { Friendship } from './modules/friendship';
 import cors from 'cors'
+import { Dialog } from './modules/dialogs';
 
 (async () => {
     const app = express()
@@ -17,6 +18,7 @@ import cors from 'cors'
     }))
     new Accounts(app);
     new Friendship(app);
+    new Dialog(app);
 
     const port = process.env.HTTP_PORT
 
