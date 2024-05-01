@@ -1,17 +1,16 @@
 import ReactDOM from 'react-dom/client';
+import './main.scss';
 
 import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import axios from 'axios';
 
 import { Accounts } from './pages/Accounts';
 import { Register } from './pages/Accounts/Register';
 import { Main } from './pages/Main';
-
-
-import './main.scss';
-import axios from 'axios';
+import { Display } from './pages/Display';
 
 const rootDOMElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootDOMElement);
@@ -48,6 +47,10 @@ const router = createBrowserRouter([
     {
         path: "/accounts/register",
         element: <Register />,
+    },
+    {
+        path: "/display",
+        element: <Display />,
     },
 ]);
 

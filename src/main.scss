@@ -28,3 +28,57 @@ a:hover {
 a:active {
     color: rgb(35, 199, 35);
 }
+
+.page {
+    &__display {
+        display: flex;
+        max-width: 600px;
+        margin: 50px auto;
+        border: 1px solid grey;
+        padding: 5px;
+        border-radius: 5px;
+        min-height: 400px;
+        &--write-message {
+            display: flex;
+            flex: 0 300px;
+            flex-direction: column;
+            gap: 10px;
+
+            margin-right: 10px;
+            > div {
+                height: 300px;
+                overflow: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                .me {
+                    background-color: lime;
+                    color: #3f3e3e;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+                .to {
+                    background-color: #1d1d1d;
+                    color:lime ;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+            }
+            textarea {
+                background-color: transparent;
+                outline: 0;
+                resize: none;
+                color: white;
+                height: 50px;
+            }
+            button {
+                cursor: pointer;
+            }
+        }
+        &--friend-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+    }
+}
