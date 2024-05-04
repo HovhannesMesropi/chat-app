@@ -9,7 +9,6 @@ import axios from 'axios';
 
 import { Accounts } from './pages/Accounts';
 import { Register } from './pages/Accounts/Register';
-import { Main } from './pages/Main';
 import { Display } from './pages/Display';
 
 const rootDOMElement = document.getElementById('root') as HTMLElement;
@@ -35,11 +34,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Main />,
-    },
+export const router = createBrowserRouter([
     {
         path: "/accounts",
         element: <Accounts />,
@@ -49,7 +44,7 @@ const router = createBrowserRouter([
         element: <Register />,
     },
     {
-        path: "/display",
+        path: "/",
         element: <Display />,
     },
 ]);
