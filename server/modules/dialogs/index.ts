@@ -5,13 +5,14 @@ import { Nullable } from '../../types/NullableD';
 import { Express, Request, Response } from 'express';
 import { Validation } from './validation';
 
-
 export class Dialog {
 
     express: Nullable<Express> = null;
+    io: Nullable<any>;
 
-    constructor(express: Express) {
+    constructor(express: Express, io: any) {
         this.express = express;
+        this.io = io;
         this.HTTPListeners()
     }
 
@@ -24,6 +25,8 @@ export class Dialog {
                     to: request.body.to,
                     message: request.body.message
                 })
+                this.io.emit('messages_updated');
+                
                 response.status(200).send(true);
             })
         })
@@ -32,17 +35,14 @@ export class Dialog {
 
     private OnGetDirectMessages(request: Request, response: Response) {
         AuthTokenChecker(request, response, async () => {
-            const currentUser = await JsonWebToken.Decode(request.headers.auth);
-            const messages = await DialogModel.findAll({where: {
-                to: currentUser.id
-            }})
-            response.status(200).send(messages);
+            const allMessages = await DialogModel.findAll()
+            response.status(200).send(allMessages);
         })
     }
 
 
     private HTTPListeners() {
-        this.express.post("/dialogs/direct", Validation.DirectMessage(), this.OnSendDirectMessage);
+        this.express.post("/dialogs/direct", Validation.DirectMessage(), this.OnSendDirectMessage.bind(this));
         this.express.get("/dialogs/direct", this.OnGetDirectMessages);
     }
 }

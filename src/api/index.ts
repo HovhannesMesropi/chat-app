@@ -10,8 +10,8 @@ export const API = {
 
         return response.data
     },
-    getUsers: async() => {
-        if(!localStorage.getItem('token')) {
+    getUsers: async () => {
+        if (!localStorage.getItem('token')) {
             router.navigate('/accounts');
             return false;
         }
@@ -19,5 +19,15 @@ export const API = {
         const { data } = await axios.get('/accounts/list')
 
         return data;
+    },
+    directMessage: async (to: number, message: string) => {
+        const response = await axios.post('/dialogs/direct', { to, message })
+
+        console.log(response);
+
+        return response;
+    },
+    getDirectMessages: async () => {
+        return await axios.get('/dialogs/direct');
     }
 }

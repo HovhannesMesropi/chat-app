@@ -19,6 +19,6 @@ export const Register = (props: { register?: boolean }) => {
                 <Input type="submit" value="Login"></Input>
             </div>
         </form>
-        <a href="#" onClick={() => navigate('/accounts')}>Have allready account login</a>
+        <a href="javascript;" onClick={() => navigate('/accounts')}>Have allready account login</a>
     </div>
 }

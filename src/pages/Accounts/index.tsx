@@ -18,6 +18,8 @@ export const Accounts = (props: { register?: boolean }) => {
         const data = await API.login(formInputs.nickname, formInputs.password);
 
         console.log(data);
+
+        navigate('/');
     }
 
     return <div className="accounts">
@@ -41,6 +43,6 @@ export const Accounts = (props: { register?: boolean }) => {
                 <button type="submit">Login</button>
             </div>
         </form>
-        <a href="#" onClick={() => navigate('/accounts/register')}>Dont have account create</a>
+        <a href="javascript;" onClick={() => navigate('/accounts/register')}>Dont have account create</a>
     </div>
 }
